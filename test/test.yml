@@ -1,0 +1,52 @@
+steps:
+        - task: SonarCloudPrepare@2
+          inputs:
+            SonarCloud: 'sonarcloud'
+            organization: 'technical-assessment'
+            scannerMode: 'CLI'
+            configMode: 'manual'
+            cliProjectKey: '$(Build.Repository.Name)'
+            cliProjectName: '$(Build.Repository.Name)'
+            cliSources: '$(Build.SourcesDirectory)'
+            extraProperties: |
+              sonar.python.coverage.reportPaths=$(Build.SourcesDirectory)/coverage.xml
+              sonar.exclusions=**/tests/**,**/test_*.py,generate_token.py
+
+        - task: DownloadSecureFile@1
+          name: environment
+          displayName: 'Download .env file'
+          inputs:
+            secureFile: '.env'
+
+        - script: |
+            echo "Forcibly copying $(environment.secureFilePath) to $(Build.SourcesDirectory)"
+            cp -f $(environment.secureFilePath) $(Build.SourcesDirectory)/.env
+          displayName: 'Forcibly Move Secure File to Build Sources Directory'
+
+        - script: |
+            pip install -r requirements.txt
+          displayName: 'Install dependencies'
+
+        - script: |
+            echo "Running tests"
+            pytest --junitxml=tests/test-results.xml
+            pytest --cov=app --cov-report=xml
+          displayName: 'Run Tests with pytest'
+
+        - task: SonarCloudAnalyze@2
+          inputs:
+            jdkversion: 'JAVA_HOME_17_X64'
+
+        - task: SonarCloudPublish@2
+          inputs:
+            pollingTimeoutSec: '300'
+
+        - task: PublishCodeCoverageResults@2
+          inputs:
+            summaryFileLocation: '$(Build.SourcesDirectory)/coverage.xml'
+
+        - task: PublishTestResults@2
+          inputs:
+            testResultsFormat: 'JUnit'
+            testResultsFiles: 'tests/test-results.xml'
+            testRunTitle: 'Python Unit Tests'
