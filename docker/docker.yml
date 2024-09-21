@@ -9,11 +9,12 @@ steps:
       echo "Logging in to ACR..."
       az acr login --name $(acrName)
 
-- task: Docker@2
-  inputs:
-    containerRegistry: 'azureSubscription'
-    repository: '$(acrName).azurecr.io/$(imageName)'
-    command: 'buildAndPush'
-    Dockerfile: '**/Dockerfile'
-    tags: |
-      $(tag)
+- script: |
+    echo "Building Docker image..."
+    docker build -t $(acrName).azurecr.io/$(imageName):$(tag) -f Dockerfile .
+  displayName: 'Docker Build'
+
+- script: |
+    echo "Pushing Docker image to ACR..."
+    docker push $(acrName).azurecr.io/$(imageName):$(tag)
+  displayName: 'Docker Push'
