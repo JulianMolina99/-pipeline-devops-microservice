@@ -2,14 +2,14 @@ steps:
 
 - script: |
     pip install -r requirements.txt
-    displayName: 'Install dependencies'
+  displayName: 'Install dependencies'
 
 - script: |
     pip install safety
     safety check -r requirements.txt --policy-file=safety-policy.json --save-html=safety-report.html
-    displayName: 'Run SCA with Safety'
+  displayName: 'Run SCA with Safety'
 
 - task: publishhtmlreport@1
-    inputs:
+  inputs:
     htmlType: 'genericHTML'
     htmlPath: '$(Build.SourcesDirectory)/safety-report.html'
