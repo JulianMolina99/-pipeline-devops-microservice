@@ -20,7 +20,6 @@ stages:
       steps:
         - template: build/build.yml
 
-
 - stage: Test
   displayName: "Test Stage"
   dependsOn: Build
