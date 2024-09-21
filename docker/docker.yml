@@ -11,7 +11,7 @@ steps:
 
 - script: |
     echo "Building Docker image..."
-    docker build -t $(acrName).azurecr.io/$(imageName):$(tag) -f Dockerfile .
+    docker build -t $(acrName).azurecr.io/$(imageName):$(tag) -f dockerfile .
   displayName: 'Docker Build'
 
 - script: |
