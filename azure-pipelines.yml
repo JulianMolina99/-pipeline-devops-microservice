@@ -9,10 +9,6 @@ stages:
     - job: SCA
       displayName: "Run SCA with Safety"
       steps:
-        - task: UsePythonVersion@0
-          inputs:
-            versionSpec: '3.x'
-            addToPath: true
 
         - script: |
             python -m pip install --upgrade pip
@@ -24,11 +20,11 @@ stages:
             safety check -r requirements.txt --save-html=safety-report.html
           displayName: 'Run SCA with Safety'
 
-        - task: PublishBuildArtifacts@1
+        - task: publishhtmlreport@1
           inputs:
-            pathToPublish: 'safety-report.html'
-            artifactName: 'SCA-Report'
-          displayName: 'Publish SCA report'
+            htmlType: 'genericHTML'
+            htmlPath: '$(Build.SourcesDirectory)/Sample.html'
+
 
 # - stage: Build
 #   displayName: "Build Stage"
