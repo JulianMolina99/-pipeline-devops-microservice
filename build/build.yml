@@ -1,4 +1,16 @@
 steps:
+
+- task: DownloadSecureFile@1
+  name: environment
+  displayName: 'Download .env file'
+  inputs:
+    secureFile: '.env'
+
+- script: |
+    echo "Forcibly copying $(environment.secureFilePath) to $(Build.SourcesDirectory)"
+    cp -f $(environment.secureFilePath) $(Build.SourcesDirectory)/.env
+  displayName: 'Forcibly Move Secure File to Build Sources Directory'
+
 - script: |
     pip install -r requirements.txt
   displayName: 'Install dependencies'
