@@ -37,3 +37,16 @@ stages:
       displayName: "Code Analysis SonarCloud"
       steps:
         - template: code_analysis/sonarcloud.yml
+
+- stage: Docker
+  displayName: "Docker Build Push"
+  dependsOn: CodeAnalysis
+  jobs:
+    - job: DockerBuild
+      displayName: "Docker Build"
+      steps:
+        - template: docker/docker-build.yml
+    - job: DockerPush
+      displayName: "Docker Push"
+      steps:
+        - template: docker/docker-push.yml
