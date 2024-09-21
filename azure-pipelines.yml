@@ -1,0 +1,81 @@
+trigger:
+- main
+
+stages:
+
+- stage: SCA_Dependencies
+  displayName: "SCA Dependencies Analysis"
+  jobs:
+    - job: SCA
+      displayName: "Run SCA with Safety"
+      steps:
+        - task: UsePythonVersion@0
+          inputs:
+            versionSpec: '3.x'
+            addToPath: true
+
+        - script: |
+            python -m pip install --upgrade pip
+            pip install -r requirements.txt
+          displayName: 'Install dependencies'
+
+        - script: |
+            pip install safety
+            safety check -r requirements.txt --save-html=safety-report.html
+          displayName: 'Run SCA with Safety'
+
+        - task: PublishBuildArtifacts@1
+          inputs:
+            pathToPublish: 'safety-report.html'
+            artifactName: 'SCA-Report'
+          displayName: 'Publish SCA report'
+
+# - stage: Build
+#   displayName: "Build Stage"
+#   dependsOn: SCA_Dependencies
+#   jobs:
+#     - job: BuildJob
+#       displayName: "Build Python Project"
+#       steps:
+#         - task: UsePythonVersion@0
+#           inputs:
+#             versionSpec: '3.x'
+#             addToPath: true
+
+#         - script: |
+#             python -m pip install --upgrade pip
+#             pip install -r requirements.txt
+#           displayName: 'Install dependencies'
+
+#         - script: |
+#             echo "Building the project"
+#           displayName: 'Run Build'
+
+
+# - stage: Test
+#   displayName: "Test Stage"
+#   dependsOn: Build
+#   jobs:
+#     - job: TestJob
+#       displayName: "Run Tests"
+#       steps:
+#         - task: UsePythonVersion@0
+#           inputs:
+#             versionSpec: '3.x'
+#             addToPath: true
+
+#         - script: |
+#             python -m pip install --upgrade pip
+#             pip install -r requirements.txt
+#           displayName: 'Install dependencies'
+
+#         - script: |
+#             echo "Running tests"
+#             pytest
+#           displayName: 'Run Tests with pytest'
+
+#         - task: PublishTestResults@2
+#           inputs:
+#             testResultsFiles: '**/test-*.xml'
+#             testRunTitle: 'Python Tests'
+#           displayName: 'Publish Test Results'
