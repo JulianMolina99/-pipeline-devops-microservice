@@ -50,6 +50,11 @@ stages:
             secureFile: '.env'
 
         - script: |
+            echo "copying $(mySecureFile.secureFilePath) to $(Build.SourcesDirectory)"
+            cp -f $(mySecureFile.secureFilePath) $(Build.SourcesDirectory)/.env
+          displayName: 'Forcibly Move Secure File to Build Sources Directory'
+
+        - script: |
             pip install -r requirements.txt
           displayName: 'Install dependencies'
 
