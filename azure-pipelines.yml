@@ -43,6 +43,12 @@ stages:
       displayName: "Run Tests"
       steps:
 
+        - task: DownloadSecureFile@1
+          name: environment
+          displayName: 'Download .env file'
+          inputs:
+            secureFile: '.env'
+
         - script: |
             pip install -r requirements.txt
           displayName: 'Install dependencies'
