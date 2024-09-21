@@ -41,6 +41,10 @@ stages:
 - stage: Docker
   displayName: "Docker Build Push"
   dependsOn: CodeAnalysis
+  variables:
+    acrName: "acrtechnicalassessmentprod"
+    imageName: "microservice"
+    tag: "$(Build.BuildId)" 
   jobs:
     - job: DockerBuild
       displayName: "Docker Build"
