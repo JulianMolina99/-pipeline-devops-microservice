@@ -45,8 +45,4 @@ stages:
     - job: DockerBuild
       displayName: "Docker Build"
       steps:
-        - template: docker/docker-build.yml
-    - job: DockerPush
-      displayName: "Docker Push"
-      steps:
-        - template: docker/docker-push.yml
+        - template: docker/docker.yml
