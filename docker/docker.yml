@@ -11,7 +11,7 @@ steps:
 
 - task: Docker@2
   inputs:
-    containerRegistry: '$(acrName)'
+    containerRegistry: 'azureSubscription'
     repository: '$(acrName).azurecr.io/$(imageName)'
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
