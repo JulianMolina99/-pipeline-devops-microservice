@@ -43,6 +43,18 @@ stages:
       displayName: "Run Tests"
       steps:
 
+        - task: SonarCloudPrepare@2
+          inputs:
+            SonarCloud: 'sonarcloud'
+            organization: 'technical-assessment'
+            scannerMode: 'CLI'
+            configMode: 'manual'
+            cliProjectKey: '$(Build.Repository.Name)'
+            cliProjectName: '$(Build.Repository.Name)'
+            cliSources: '$(Build.SourcesDirectory)'
+            extraProperties: |
+              sonar.python.coverage.reportPaths=$(Build.SourcesDirectory)/coverage.xml
+
         - task: DownloadSecureFile@1
           name: environment
           displayName: 'Download .env file'
@@ -61,7 +73,16 @@ stages:
         - script: |
             echo "Running tests"
             pytest --junitxml=tests/test-results.xml
+            pytest --cov=app --cov-report=xml
           displayName: 'Run Tests with pytest'
+
+        - task: SonarCloudAnalyze@2
+          inputs:
+            jdkversion: 'JAVA_HOME_17_X64'
+
+        - task: SonarCloudPublish@2
+          inputs:
+            pollingTimeoutSec: '300'
 
         - task: PublishTestResults@2
           inputs:
