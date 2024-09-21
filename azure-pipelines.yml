@@ -3,13 +3,13 @@ trigger:
 
 stages:
 
-- stage: SCA_Dependencies
-  displayName: "SCA Dependencies Analysis"
-  jobs:
-    - job: SCA
-      displayName: "Run SCA with Safety"
-      steps:
-        - template: sca/sca-safety.yml
+# - stage: SCA_Dependencies
+#   displayName: "SCA Dependencies Analysis"
+#   jobs:
+#     - job: SCA
+#       displayName: "Run SCA with Safety"
+#       steps:
+#         - template: sca/sca-safety.yml
 
 
 
@@ -35,30 +35,25 @@ stages:
 #           displayName: 'Run Build'
 
 
-# - stage: Test
-#   displayName: "Test Stage"
-#   dependsOn: Build
-#   jobs:
-#     - job: TestJob
-#       displayName: "Run Tests"
-#       steps:
-#         - task: UsePythonVersion@0
-#           inputs:
-#             versionSpec: '3.x'
-#             addToPath: true
+- stage: Test
+  displayName: "Test Stage"
+  # dependsOn: Build
+  jobs:
+    - job: TestJob
+      displayName: "Run Tests"
+      steps:
 
-#         - script: |
-#             python -m pip install --upgrade pip
-#             pip install -r requirements.txt
-#           displayName: 'Install dependencies'
+        - script: |
+            pip install -r requirements.txt
+          displayName: 'Install dependencies'
 
-#         - script: |
-#             echo "Running tests"
-#             pytest
-#           displayName: 'Run Tests with pytest'
+        - script: |
+            echo "Running tests"
+            pytest --junitxml=tests/test-results.xml
+          displayName: 'Run Tests with pytest'
 
-#         - task: PublishTestResults@2
-#           inputs:
-#             testResultsFiles: '**/test-*.xml'
-#             testRunTitle: 'Python Tests'
-#           displayName: 'Publish Test Results'
+        - task: PublishTestResults@2
+          inputs:
+            testResultsFormat: 'JUnit'
+            testResultsFiles: 'tests/test-results.xml'
+            testRunTitle: 'Python Unit Tests'
