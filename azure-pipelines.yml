@@ -54,7 +54,7 @@ stages:
             cliSources: '$(Build.SourcesDirectory)'
             extraProperties: |
               sonar.python.coverage.reportPaths=$(Build.SourcesDirectory)/coverage.xml
-              sonar.exclusions=**/tests/**,**/test_*.py
+              sonar.exclusions=**/tests/**,**/test_*.py,generate_token.py
 
         - task: DownloadSecureFile@1
           name: environment
