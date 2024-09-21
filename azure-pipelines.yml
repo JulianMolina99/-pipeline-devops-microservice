@@ -9,29 +9,8 @@ stages:
     - job: SCA
       displayName: "Run SCA with Safety"
       steps:
+        - template: sca/sca-safety.yml
 
-        - task: AdvancedSecurity-Codeql-Init@1
-          inputs:
-            languages: "python"
-            enableAutomaticCodeQLInstall: true
-
-        - task: AdvancedSecurity-Dependency-Scanning@1
-
-        - task: AdvancedSecurity-Codeql-Analyze@1
-
-        - script: |
-            pip install -r requirements.txt
-          displayName: 'Install dependencies'
-
-        - script: |
-            pip install safety
-            safety check -r requirements.txt --policy-file=safety-policy.json --save-html=safety-report.html
-          displayName: 'Run SCA with Safety'
-
-        - task: publishhtmlreport@1
-          inputs:
-            htmlType: 'genericHTML'
-            htmlPath: '$(Build.SourcesDirectory)/safety-report.html'
 
 
 # - stage: Build
