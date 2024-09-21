@@ -1,0 +1,19 @@
+steps:
+
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: 'azureSubscription'
+    scriptType: bash
+    scriptLocation: inlineScript
+    inlineScript: |
+      echo "Logging in to ACR..."
+      az acr login --name $(acrName)
+
+- task: Docker@2
+  inputs:
+    containerRegistry: '$(acrName)'
+    repository: '$(acrName).azurecr.io/$(imageName)'
+    command: 'buildAndPush'
+    Dockerfile: '**/Dockerfile'
+    tags: |
+      $(tag)
