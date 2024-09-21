@@ -50,8 +50,8 @@ stages:
             secureFile: '.env'
 
         - script: |
-            echo "copying $(mySecureFile.secureFilePath) to $(Build.SourcesDirectory)"
-            cp -f $(mySecureFile.secureFilePath) $(Build.SourcesDirectory)
+            echo "Forcibly copying $(environment.secureFilePath) to $(Build.SourcesDirectory)"
+            cp -f $(environment.secureFilePath) $(Build.SourcesDirectory)/.env
           displayName: 'Forcibly Move Secure File to Build Sources Directory'
 
         - script: |
