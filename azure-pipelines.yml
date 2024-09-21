@@ -51,7 +51,7 @@ stages:
 
         - script: |
             echo "copying $(mySecureFile.secureFilePath) to $(Build.SourcesDirectory)"
-            cp -f $(mySecureFile.secureFilePath) $(Build.SourcesDirectory)/.env
+            cp -f $(mySecureFile.secureFilePath) $(Build.SourcesDirectory)
           displayName: 'Forcibly Move Secure File to Build Sources Directory'
 
         - script: |
