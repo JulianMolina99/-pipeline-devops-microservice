@@ -54,6 +54,7 @@ stages:
             cliSources: '$(Build.SourcesDirectory)'
             extraProperties: |
               sonar.python.coverage.reportPaths=$(Build.SourcesDirectory)/coverage.xml
+              sonar.exclusions=**/tests/**,**/test_*.py
 
         - task: DownloadSecureFile@1
           name: environment
@@ -83,6 +84,10 @@ stages:
         - task: SonarCloudPublish@2
           inputs:
             pollingTimeoutSec: '300'
+
+        - task: PublishCodeCoverageResults@2
+          inputs:
+            summaryFileLocation: '$(Build.SourcesDirectory)/coverage.xml'
 
         - task: PublishTestResults@2
           inputs:
