@@ -10,7 +10,7 @@ steps:
 - script: |
     git add $(Build.SourcesDirectory)/manifests/deployment.yaml
     git commit -m "Update image tag to $(Build.BuildId)"
-    git push https://$(System.AccessToken)@dev.azure.com/azure-devops-personal-projects/_git/$(Build.Repository.Name) HEAD:refs/heads/update-$(Build.BuildId)
+    git push https://$(access-token)@dev.azure.com/azure-devops-personal-projects/_git/gitops-k8s-configs HEAD:refs/heads/update-$(Build.BuildId)
   displayName: "Commit and Push Changes"
 
 - script: |
