@@ -16,7 +16,7 @@ steps:
 
 - script: |
     az extension add --name azure-devops
-    az devops login --organization https://dev.azure.com/azure-devops-personal-projects/ --pat $(System.AccessToken)
+    az devops login --organization https://dev.azure.com/azure-devops-personal-projects/ --pat $(access-token)
     az repos pr create --repository $(Build.Repository.Name) --source-branch update-$(Build.BuildId) --target-branch main --title "Update image tag to $(Build.BuildId)" --description "Auto-generated PR to update image tag" --auto-complete true --delete-source-branch
   displayName: "Create Pull Request and Delete Source Branch"
   env:
