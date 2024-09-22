@@ -4,7 +4,7 @@ steps:
 
 - script: |
     echo "Updating image tag in Kubernetes deployment YAML"
-    sed -i 's#acrtechnicalassessmentprod.azurecr.io/microservice:.*#acrtechnicalassessmentprod.azurecr.io/microservice:$(Build.BuildId)#' $(Build.SourcesDirectory)/gitops-k8s-configs/manifests/deployment.yaml
+    sed -i 's#acrtechnicalassessmentprod.azurecr.io/microservice:.*#acrtechnicalassessmentprod.azurecr.io/microservice:$(Build.BuildId)#' $(Build.SourcesDirectory)/manifests/deployment.yaml
   displayName: "Update Image Tag"
 
 - script: |
