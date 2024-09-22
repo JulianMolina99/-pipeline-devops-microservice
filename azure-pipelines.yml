@@ -13,44 +13,44 @@ resources:
 
 stages:
 
-# - stage: SCA_Dependencies
-#   displayName: "SCA Dependencies Analysis"
-#   jobs:
-#     - job: SCA
-#       displayName: "Run SCA with Safety"
-#       steps:
-#         - template: sca/sca-safety.yml
+- stage: SCA_Dependencies
+  displayName: "SCA Dependencies Analysis"
+  jobs:
+    - job: SCA
+      displayName: "Run SCA with Safety"
+      steps:
+        - template: sca/sca-safety.yml
 
-# - stage: Build
-#   displayName: "Build Stage"
-#   dependsOn: SCA_Dependencies
-#   jobs:
-#     - job: BuildJob
-#       displayName: "Build Python Project"
-#       steps:
-#         - template: build/build.yml
+- stage: Build
+  displayName: "Build Stage"
+  dependsOn: SCA_Dependencies
+  jobs:
+    - job: BuildJob
+      displayName: "Build Python Project"
+      steps:
+        - template: build/build.yml
 
-# - stage: Test
-#   displayName: "Test Stage"
-#   dependsOn: Build
-#   jobs:
-#     - job: TestJob
-#       displayName: "Run Tests"
-#       steps:
-#         - template: test/test.yml
+- stage: Test
+  displayName: "Test Stage"
+  dependsOn: Build
+  jobs:
+    - job: TestJob
+      displayName: "Run Tests"
+      steps:
+        - template: test/test.yml
 
-# - stage: CodeAnalysis
-#   displayName: "Code Analysis SonarCloud"
-#   dependsOn: Test
-#   jobs:
-#     - job: AnalysisJob
-#       displayName: "Code Analysis SonarCloud"
-#       steps:
-#         - template: code_analysis/sonarcloud.yml
+- stage: CodeAnalysis
+  displayName: "Code Analysis SonarCloud"
+  dependsOn: Test
+  jobs:
+    - job: AnalysisJob
+      displayName: "Code Analysis SonarCloud"
+      steps:
+        - template: code_analysis/sonarcloud.yml
 
 - stage: Docker
   displayName: "Docker Build Push"
-  # dependsOn: CodeAnalysis
+  dependsOn: CodeAnalysis
   variables:
     acrName: "acrtechnicalassessmentprod"
     imageName: "microservice"
