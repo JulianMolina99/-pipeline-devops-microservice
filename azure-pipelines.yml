@@ -1,6 +1,13 @@
 trigger:
 - main
 
+resources:
+  repositories:
+    - repository: gitops-k8s-configs
+      type: git
+      name: technicalAssessment/gitops-k8s-configs
+      ref: refs/heads/main
+
 stages:
 
 - stage: SCA_Dependencies
