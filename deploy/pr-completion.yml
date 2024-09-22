@@ -1,5 +1,4 @@
 steps:
-- checkout: none
 
 - checkout: gitops-k8s-configs
 
