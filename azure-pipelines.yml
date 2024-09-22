@@ -1,6 +1,9 @@
 trigger:
 - main
 
+variables:
+- group: technical-assessment
+
 resources:
   repositories:
     - repository: gitops-k8s-configs
@@ -57,3 +60,12 @@ stages:
       displayName: "Docker Build"
       steps:
         - template: docker/docker.yml
+
+- stage: Deploy
+  displayName: "Deploy GitOps"
+  dependsOn: Docker
+  jobs:
+    - job: PullRequest
+      displayName: "Pull Request to main"
+      steps:
+        - template: deploy/pr-completion.yml
