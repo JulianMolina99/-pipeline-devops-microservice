@@ -1,0 +1,24 @@
+
+        steps:
+          - checkout: none
+
+          - chekcout: gitops-k8s-configs
+
+          - script: |
+              echo "Updating image tag in Kubernetes deployment YAML"
+              sed -i 's#acrtechnicalassessmentprod.azurecr.io/microservice:.*#acrtechnicalassessmentprod.azurecr.io/microservice:$(newImageTag)#' $(Build.SourcesDirectory)/gitops-k8s-configs/manifests/deployment.yaml
+            displayName: "Update Image Tag"
+
+          - script: |
+              git add $(Build.SourcesDirectory)/gitops-k8s-configs/manifests/deployment.yaml
+              git commit -m "Update image tag to $(Build.BuildId)"
+              git push origin HEAD:update-$(Build.BuildId)
+            displayName: "Commit and Push Changes"
+
+      - script: |
+          az extension add --name azure-devops
+          az devops login --organization https://dev.azure.com/azure-devops-personal-projects/ --pat $(System.AccessToken)
+          az repos pr create --repository $(Build.Repository.Name) --source-branch update-$(Build.BuildId) --target-branch main --title "Update image tag to $(Build.BuildId)" --description "Auto-generated PR to update image tag" --auto-complete true --delete-source-branch
+        displayName: "Create Pull Request and Delete Source Branch"
+        env:
+          AZURE_DEVOPS_EXT_PAT: $(System.AccessToken)
