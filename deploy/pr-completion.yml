@@ -1,7 +1,7 @@
 steps:
 - checkout: none
 
-- chekcout: gitops-k8s-configs
+- checkout: gitops-k8s-configs
 
 - script: |
     echo "Updating image tag in Kubernetes deployment YAML"
