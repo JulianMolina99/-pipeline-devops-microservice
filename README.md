@@ -10,10 +10,13 @@
 - **Key point:** The `.env` file ensures that sensitive variables are securely available to the application.
 
 ## 3. Testing stage
+![Test Results](./images/test-result.png)
+![Code Coverage](./images/code-coverage-azure.png)
 - **Description:** The secure `.env` file is downloaded, and unit tests are run using `pytest`, generating code coverage and test results, which are subsequently published.
 - **Key point:** Validates functionality and code coverage.
 
 ## 4. Code analysis with SonarCloud
+![SonarCloud Report](./images/sonarcloud-report.png)
 - **Description:** This stage performs a static analysis of the code using SonarCloud. The analysis helps to identify bugs and vulnerabilities before deployment, the analysis can be viewed at the following link: https://sonarcloud.io/summary/overall?id=app-source-code.
 - **Key point:** SonarCloud ensures code quality, and the `.env` file is downloaded to maintain consistency at all stages.
 
@@ -22,10 +25,12 @@
 - **Key point:** The `.env` file ensures that the Docker image contains all the necessary configurations for the microservice.
 
 ## 6. Trivy Scan
+![Trivy](./images/trivy-results.png)
 - **Description:** The Docker image in ACR is scanned using `Trivy` to detect known security vulnerabilities.
 - **Key point:** Helps to increase the level of security by detecting vulnerabilities in the Docker image.
 
 ## 7. GitOps Deployment
+
 - **Description:** Deploying Azure extension for GitOps aks with FluxCD updates Kubernetes manifests with the new Docker image. A pull request is automatically created to merge the changes to the `main` branch, which deploys the microservice to AKS.
 - **Key Point:** Automates the deployment of the microservice to AKS using GitOps, ensuring that the infrastructure is updated in a controlled manner.
 
