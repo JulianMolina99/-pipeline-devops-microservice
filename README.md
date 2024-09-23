@@ -21,6 +21,7 @@
 - **Key point:** SonarCloud ensures code quality, and the `.env` file is downloaded to maintain consistency at all stages.
 
 ## Docker Build and Push
+![ACR](./images/acr.png)
 - **Description:** The Docker image of the microservice is built, including the `.env` file with sensitive variables. The image is then pushed to Azure Container Registry (ACR), ready for deployment to AKS.
 - **Key point:** The `.env` file ensures that the Docker image contains all the necessary configurations for the microservice.
 
