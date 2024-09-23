@@ -61,9 +61,22 @@ stages:
       steps:
         - template: docker/docker.yml
 
+- stage: Trivy
+  displayName: "Trivy Scan Image"
+  dependsOn: Docker
+  variables:
+    acrName: "acrtechnicalassessmentprod"
+    imageName: "microservice"
+    tag: "$(Build.BuildId)" 
+  jobs:
+    - job: TrivyScan
+      displayName: "Trivy Scan Job"
+      steps:
+        - template: trivy/trivy.yml
+
 - stage: Deploy
   displayName: "Deploy GitOps"
-  dependsOn: Docker
+  dependsOn: Trivy
   jobs:
     - job: PullRequest
       displayName: "Pull Request to main"
