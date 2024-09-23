@@ -1,5 +1,19 @@
 # Documentation of the pipeline implemented with GitOps
 
+The following diagrams showcase the overall workflow and stages involved in the deployment pipeline for the microservice, utilizing GitOps, Azure Kubernetes Service (AKS), and Azure Container Registry (ACR).
+
+**Workflow Overview**
+
+![GitOps Diagram](./images/gitops-diagram.png)
+![Pipeline Diagram](./images/stage-pipeline.png)
+In this diagram, the developer initiates the development process using VS Code, making changes in the App Repository. These changes trigger the CI/CD pipeline, which builds and pushes the Docker image to Azure Container Registry (ACR). Once the image is successfully pushed, the pipeline updates the deployment manifests in the GitOps Repository, which is then synced with the desired state in the Kubernetes cluster (AKS). The Flux component in AKS continuously pulls the latest manifests and ensures the cluster state matches the repository.
+
+**Key points**:
+
+- **ACR**: Stores the Docker images.
+- **Flux**: Monitors the GitOps repo for changes and applies them to the AKS cluster.
+- **GitOps**: Manages Kubernetes deployments by pulling the desired state from a repository.
+
 ## 1. SCA Dependency Analysis
 ![SCA Report](./images/sca-report.png)
 - **Description:** This stage performs a vulnerability scan on the project dependencies using `Safety`. The `requirements.txt` file is used to install the dependencies and run the scan, generating an HTML report with the results.
