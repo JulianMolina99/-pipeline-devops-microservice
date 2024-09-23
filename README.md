@@ -31,7 +31,7 @@
 - **Key point:** Helps to increase the level of security by detecting vulnerabilities in the Docker image.
 
 ## 7. GitOps Deployment
-
+![GitOps](./images/gitops.png)
 - **Description:** Deploying Azure extension for GitOps aks with FluxCD updates Kubernetes manifests with the new Docker image. A pull request is automatically created to merge the changes to the `main` branch, which deploys the microservice to AKS.
 - **Key Point:** Automates the deployment of the microservice to AKS using GitOps, ensuring that the infrastructure is updated in a controlled manner.
 
