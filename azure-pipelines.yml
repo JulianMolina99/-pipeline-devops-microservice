@@ -72,7 +72,7 @@ stages:
     - job: TrivyScan
       displayName: "Trivy Scan Job"
       steps:
-        - template: trivy/trivy.yml
+        - template: trivy/trivy-scan.yml
 
 - stage: Deploy
   displayName: "Deploy GitOps"
