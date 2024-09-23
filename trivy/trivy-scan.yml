@@ -1,0 +1,14 @@
+steps:
+
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: 'azureSubscription'
+    scriptType: bash
+    scriptLocation: inlineScript
+    inlineScript: |
+      echo "Logging in to ACR..."
+      az acr login --name $(acrName)
+
+- task: trivy@1
+  inputs:
+    image: $(acrName).azurecr.io/$(imageName):$(tag)
