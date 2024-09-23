@@ -12,4 +12,4 @@ steps:
 - task: trivy@1
   inputs:
     image: $(acrName).azurecr.io/$(imageName):$(tag)
-    ignoreUnfixed: true
+    exitCode: 0
