@@ -1,7 +1,7 @@
 # Documentation of the pipeline implemented with GitOps
 
 ## 1. SCA Dependency Analysis
-
+![SCA Report](./images/sca-report.png)
 - **Description:** This stage performs a vulnerability scan on the project dependencies using `Safety`. The `requirements.txt` file is used to install the dependencies and run the scan, generating an HTML report with the results.
 - **Key point:** Helps to increase the security level by detecting bugs at an early stage.
 
